@@ -46,6 +46,11 @@
     }
     reader.readAsText(file)
   }
+
+  $: exerciseNames = new Set(data.map((d) => d.exerciseName))
+  $: {
+    console.log(exerciseNames)
+  }
 </script>
 
 <svelte:head>

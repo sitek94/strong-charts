@@ -14,7 +14,16 @@
       const rawText = reader.result.toString()
       const csvText = rawText.replace(/;/g, ',')
 
-      const data = d3.csvParse(csvText)
+      const rawData = d3.csvParse(csvText)
+      const data = rawData.map((d) => ({
+        date: new Date(d['Date']),
+        workoutName: d['Workout Name'],
+        exerciseName: d['Exercise Name'],
+        reps: +d['Reps'],
+        weight: +d['Weight'],
+        weightUnit: d['Weight Unit'],
+      }))
+
       console.log(data)
     }
     reader.readAsText(file)

@@ -4,6 +4,11 @@
 
 ![Screen Shot 2022-04-07 at 21 15 10](https://user-images.githubusercontent.com/58401630/162280211-9161dfbd-4370-4ce9-bbdc-a4213b5959fa.png)
 
+### Todos
+
+- [ ] Select a date from when you want to start showing the data
+- [ ] Persist the data in localStorage
+
 ## Bootstrapped with create-svelte
 
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).

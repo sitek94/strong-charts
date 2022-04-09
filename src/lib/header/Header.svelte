@@ -1,14 +1,15 @@
 <script lang="ts">
   import { page } from '$app/stores'
+  import { base } from '$app/paths'
   import logo from './svelte-logo.svg'
 
   const routes = [
     {
-      path: '/',
+      path: '',
       name: 'Import data',
     },
     {
-      path: '/exercises',
+      path: 'exercises',
       name: 'Exercises',
     },
   ]
@@ -28,7 +29,7 @@
     <ul>
       {#each routes as { path, name }}
         <li class:active={$page.url.pathname === path}>
-          <a href={path}>{name}</a>
+          <a href="{base}/{path}">{name}</a>
         </li>
       {/each}
     </ul>

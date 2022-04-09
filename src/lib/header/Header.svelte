@@ -5,15 +5,11 @@
   const routes = [
     {
       path: '/',
-      name: 'Import sets',
+      name: 'Import data',
     },
     {
       path: '/exercises',
       name: 'Exercises',
-    },
-    {
-      path: '/about',
-      name: 'About',
     },
   ]
 </script>

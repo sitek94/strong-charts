@@ -4,10 +4,14 @@
 
 ![Screen Shot 2022-04-07 at 21 15 10](https://user-images.githubusercontent.com/58401630/162280211-9161dfbd-4370-4ce9-bbdc-a4213b5959fa.png)
 
+### Example dataset
+
+- [strong-2018.csv](https://github.com/sitek94/strong-charts/files/8456477/strong-2018.csv)
+
 ### Todos
 
 - [ ] Select a date from when you want to start showing the data
-- [ ] Persist the data in localStorage
+- [x] Persist the data in localStorage
 
 ## Bootstrapped with create-svelte
 

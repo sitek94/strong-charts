@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from '$app/stores'
   import { base } from '$app/paths'
+  import Link from '$lib/link.svelte'
   import logo from './svelte-logo.svg'
 
   const routes = [
@@ -28,8 +29,8 @@
     </svg>
     <ul>
       {#each routes as { path, name }}
-        <li class:active={$page.url.pathname === path}>
-          <a href="{base}/{path}">{name}</a>
+        <li class:active={$page.url.pathname === `${base}/${path}`}>
+          <Link to={path}>{name}</Link>
         </li>
       {/each}
     </ul>
@@ -125,7 +126,7 @@
     border-top: var(--size) solid var(--accent-color);
   }
 
-  nav a {
+  :global(nav a) {
     display: flex;
     height: 100%;
     align-items: center;
@@ -139,7 +140,7 @@
     transition: color 0.2s linear;
   }
 
-  a:hover {
+  :global(a:hover) {
     color: var(--accent-color);
   }
 </style>

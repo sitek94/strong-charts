@@ -1,8 +1,12 @@
 <script lang="ts">
   import * as d3 from 'd3'
+  import Link from '$lib/link.svelte'
   import { exerciseSets } from '$lib/store'
 
+  type Status = 'loading' | 'success' | 'error' | 'idle'
+  let status: Status = 'idle'
   let files
+
   $: if (files) {
     let file = files[0]
 
@@ -23,20 +27,26 @@
           .replace(/[^a-z0-9-]/g, '')
 
       const rawData = d3.csvParse(csvText)
-      const data = rawData.map(d => {
-        const exerciseName = d['Exercise Name']
-        return {
-          date: new Date(d['Date']),
-          workoutName: d['Workout Name'],
-          exerciseName,
-          exerciseId: slugify(exerciseName),
-          reps: +d['Reps'],
-          weight: +d['Weight'],
-          weightUnit: d['Weight Unit'],
-        }
-      })
 
-      exerciseSets.set(data)
+      try {
+        const data = rawData.map(d => {
+          const exerciseName = d['Exercise Name']
+          return {
+            date: new Date(d['Date']),
+            workoutName: d['Workout Name'],
+            exerciseName,
+            exerciseId: slugify(exerciseName),
+            reps: +d['Reps'],
+            weight: +d['Weight'],
+            weightUnit: d['Weight Unit'],
+          }
+        })
+        exerciseSets.set(data)
+        status = 'success'
+      } catch (e) {
+        console.error(e)
+        status = 'error'
+      }
     }
     reader.readAsText(file)
   }
@@ -47,9 +57,24 @@
 </svelte:head>
 
 <div class="content">
-  <h1>Import data</h1>
+  {#if status === 'idle'}
+    <h1>Import data</h1>
+    <input type="file" accept="text/csv" bind:files />
+  {/if}
 
-  <input type="file" accept="text/csv" bind:files />
+  {#if status === 'success'}
+    <h1>Data imported</h1>
+    <Link to="exercises">Go to exercises</Link>
+  {/if}
+
+  {#if status === 'loading'}
+    <h1>Loading...</h1>
+  {/if}
+
+  {#if status === 'error'}
+    <h1>Something went wrong</h1>
+    <p>Check the console</p>
+  {/if}
 </div>
 
 <style>

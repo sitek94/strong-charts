@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { exerciseNames } from '$lib/store'
+  import { exercises } from '$lib/store'
 </script>
 
 <svelte:head>
@@ -10,9 +10,9 @@
   <h1>Exercises</h1>
 
   <ul>
-    {#each $exerciseNames as exerciseName}
+    {#each $exercises as { id, name }}
       <li>
-        {exerciseName}
+        <a href="/exercises/{id}">{name}</a>
       </li>
     {/each}
   </ul>

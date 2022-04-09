@@ -14,15 +14,27 @@
       const rawText = reader.result.toString()
       const csvText = rawText.replace(/;/g, ',')
 
+      const slugify = (name: string) =>
+        name
+          .toLowerCase()
+          // Replace whitespace with dash
+          .replace(/\s/g, '-')
+          // Remove everything that is not a letter or number
+          .replace(/[^a-z0-9-]/g, '')
+
       const rawData = d3.csvParse(csvText)
-      const data = rawData.map((d) => ({
-        date: new Date(d['Date']),
-        workoutName: d['Workout Name'],
-        exerciseName: d['Exercise Name'],
-        reps: +d['Reps'],
-        weight: +d['Weight'],
-        weightUnit: d['Weight Unit'],
-      }))
+      const data = rawData.map(d => {
+        const exerciseName = d['Exercise Name']
+        return {
+          date: new Date(d['Date']),
+          workoutName: d['Workout Name'],
+          exerciseName,
+          exerciseId: slugify(exerciseName),
+          reps: +d['Reps'],
+          weight: +d['Weight'],
+          weightUnit: d['Weight Unit'],
+        }
+      })
 
       exerciseSets.set(data)
     }

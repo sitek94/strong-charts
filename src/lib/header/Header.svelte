@@ -15,14 +15,6 @@
       path: '/about',
       name: 'About',
     },
-    {
-      path: '/counter',
-      name: 'Counter',
-    },
-    {
-      path: '/todos',
-      name: 'Todos',
-    },
   ]
 </script>
 

@@ -1,0 +1,61 @@
+name: 🚀 Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  build:
+    name: 🛠️ Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛎️ Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: 📦 Setup pnpm
+      - uses: pnpm/action-setup@v2.0.1
+
+      - name: ⎔ Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+          cache: 'pnpm'
+
+      - name: 📥 Install Dependencies
+        run: pnpm install
+
+      - name: 🔬 Lint
+        run: npm run lint
+
+      - name: 🛠️ Build project
+        run: npm run build
+
+      - name: 📤 Upload production-ready build files
+        uses: actions/upload-artifact@v2
+        with:
+          name: production-files
+          path: ./build
+
+  deploy:
+    name: 🚀 Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: 📥 Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: production-files
+          path: ./build
+
+      - name: 🚀 Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build

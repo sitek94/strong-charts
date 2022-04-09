@@ -19,6 +19,8 @@ jobs:
 
       - name: 📦 Setup pnpm
         uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.30.1
 
       - name: ⎔ Setup Node
         uses: actions/setup-node@v1

@@ -1,25 +1,6 @@
 <script lang="ts">
   import * as d3 from 'd3'
-  import { onMount } from 'svelte'
-
-  const KEY = 'strong-charts_data'
-
-  type ExerciseSet = {
-    date: Date
-    workoutName: string
-    exerciseName: string
-    reps: number
-    weight: number
-    weightUnit: string
-  }
-  let data: ExerciseSet[] = []
-
-  onMount(() => {
-    const storedData = localStorage.getItem(KEY)
-    if (storedData) {
-      data = JSON.parse(storedData)
-    }
-  })
+  import { exerciseSets } from '$lib/store'
 
   let files
   $: if (files) {
@@ -34,7 +15,7 @@
       const csvText = rawText.replace(/;/g, ',')
 
       const rawData = d3.csvParse(csvText)
-      data = rawData.map((d) => ({
+      const data = rawData.map((d) => ({
         date: new Date(d['Date']),
         workoutName: d['Workout Name'],
         exerciseName: d['Exercise Name'],
@@ -42,12 +23,13 @@
         weight: +d['Weight'],
         weightUnit: d['Weight Unit'],
       }))
-      localStorage.setItem(KEY, JSON.stringify(data))
+
+      exerciseSets.set(data)
     }
     reader.readAsText(file)
   }
 
-  $: exerciseNames = new Set(data.map((d) => d.exerciseName))
+  $: exerciseNames = new Set($exerciseSets.map((d) => d.exerciseName))
   $: {
     console.log(exerciseNames)
   }

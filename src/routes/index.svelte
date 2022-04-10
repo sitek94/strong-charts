@@ -1,9 +1,10 @@
 <script lang="ts">
   import * as d3 from 'd3'
-  import Link from '$lib/link.svelte'
+  import Link from '$lib/Link.svelte'
   import { exerciseSets } from '$lib/store'
+  import { calcVolume } from '../lib/utils'
 
-  type Status = 'loading' | 'success' | 'error' | 'idle'
+  type Status = 'success' | 'error' | 'idle'
   let status: Status = 'idle'
   let files
 
@@ -16,7 +17,9 @@
     reader.onerror = () => console.log('file reading has failed')
     reader.onload = () => {
       const rawText = reader.result.toString()
-      const csvText = rawText.replace(/;/g, ',')
+
+      // semi-colon separated values
+      const scsv = d3.dsvFormat(';')
 
       const slugify = (name: string) =>
         name
@@ -26,19 +29,25 @@
           // Remove everything that is not a letter or number
           .replace(/[^a-z0-9-]/g, '')
 
-      const rawData = d3.csvParse(csvText)
+      const rawData = scsv.parse(rawText)
 
       try {
         const data = rawData.map(d => {
           const exerciseName = d['Exercise Name']
+          const reps = +d['Reps']
+
+          // Weight in CSV has "7,5" format, convert it to 7.5
+          const weight = +d['Weight'].replace(',', '.')
+
           return {
             date: new Date(d['Date']),
             workoutName: d['Workout Name'],
             exerciseName,
             exerciseId: slugify(exerciseName),
-            reps: +d['Reps'],
-            weight: +d['Weight'],
+            reps,
+            weight,
             weightUnit: d['Weight Unit'],
+            volume: calcVolume({ reps, weight }),
           }
         })
         exerciseSets.set(data)
@@ -65,10 +74,6 @@
   {#if status === 'success'}
     <h1>Data imported</h1>
     <Link to="exercises">Go to exercises</Link>
-  {/if}
-
-  {#if status === 'loading'}
-    <h1>Loading...</h1>
   {/if}
 
   {#if status === 'error'}

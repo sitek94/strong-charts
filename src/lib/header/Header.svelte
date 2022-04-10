@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from '$app/stores'
   import { base } from '$app/paths'
-  import Link from '$lib/link.svelte'
+  import Link from '$lib/Link.svelte'
   import logo from './svelte-logo.svg'
 
   const routes = [

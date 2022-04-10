@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Link from '$lib/Link.svelte'
   import { exercises } from '$lib/store'
 </script>
 
@@ -12,7 +13,7 @@
   <ul>
     {#each $exercises as { id, name }}
       <li>
-        <a href="/exercises/{id}">{name}</a>
+        <Link to="exercises/{id}">{name}</Link>
       </li>
     {/each}
   </ul>

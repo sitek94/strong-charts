@@ -38,8 +38,8 @@
     "typescript": "~4.6.2"
   },
   "lint-staged": {
-    "*.{js,ts,svelte}": "eslint --cache --fix",
-    "*.{js,ts,svelte,css,md}": "prettier --write"
+    "*.{js,ts,svelte}": "npm run lint",
+    "*.{js,ts,svelte,css,md}": "npm run format"
   },
   "type": "module"
 }

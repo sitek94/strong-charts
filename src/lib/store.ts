@@ -1,9 +1,7 @@
 import { get, writable, derived } from 'svelte/store'
-import * as localStorage from '$lib/local-storage'
+import { getExerciseSets, setExerciseSets } from '$lib/local-storage'
 
-const KEY = 'strong-charts__exercise-sets'
-
-type ExerciseSet = {
+export type ExerciseSet = {
   date: Date
   workoutName: string
   exerciseId: string
@@ -11,12 +9,13 @@ type ExerciseSet = {
   reps: number
   weight: number
   weightUnit: string
+  volume: number
 }
 
-export const exerciseSets = writable(localStorage.getItem<ExerciseSet[]>(KEY, []))
+export const exerciseSets = writable(getExerciseSets())
 
 exerciseSets.subscribe(value => {
-  localStorage.setItem(KEY, value)
+  setExerciseSets(value)
 })
 
 export type Exercise = {
@@ -29,11 +28,17 @@ export const exercises = derived(exerciseSets, $exerciseSets => {
     if (acc.find(({ id }) => id === exerciseId)) {
       return acc
     }
-    return [...acc, { id: exerciseId, name: exerciseName }]
+    const exercise: Exercise = { id: exerciseId, name: exerciseName }
+    return [...acc, exercise]
   }, [] as Exercise[])
 })
 
-export function getExercise(id: Exercise['id']) {
+export function getExercise(id: Exercise['id']): Exercise {
   const exercisesStore = get(exercises)
   return exercisesStore.find(exercise => exercise.id === id)
+}
+
+export function getSets(exerciseId: Exercise['id']): ExerciseSet[] {
+  const exerciseSetsStore = get(exerciseSets)
+  return exerciseSetsStore.filter(set => set.exerciseId === exerciseId)
 }

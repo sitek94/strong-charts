@@ -15,10 +15,10 @@
 
 ### Ideas
 
-- Display exercises in a [SvelTable](https://sveltable.io/) 
+- Display exercises in a [SvelTable](https://sveltable.io/)
 - Support file drop for uploading a file - [filedrop-svelte](https://github.com/chanced/filedrop-svelte)
 - Take a look at [persistent-svelte-store](https://github.com/omer-g/persistent-svelte-store/blob/master/persistentStore.ts)
-  when adding more persistent stuff 
+  when adding more persistent stuff
 
 ## Bootstrapped with create-svelte
 

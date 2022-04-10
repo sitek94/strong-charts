@@ -1,30 +1,31 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-d3878fb9.js",
+    "file": "start-7421a9a7.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
-      "_index-bae2fa0a.js",
-      "_index-27c791b4.js",
+      "_index-67f931fa.js",
+      "_index-78d3ef8c.js",
       "_paths-396f020f.js"
     ],
     "dynamicImports": [
       "src/routes/__layout.svelte",
       ".svelte-kit/runtime/components/error.svelte",
-      "src/routes/exercises/[slug].svelte",
+      "src/routes/exercises/[exerciseId].svelte",
       "src/routes/exercises/index.svelte",
       "src/routes/index.svelte"
     ]
   },
   "src/routes/__layout.svelte": {
-    "file": "pages/__layout.svelte-7d24e0ed.js",
+    "file": "pages/__layout.svelte-9bc79dc6.js",
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-bae2fa0a.js",
+      "_index-67f931fa.js",
+      "_stores-2c052321.js",
       "_paths-396f020f.js",
-      "_link-6b83aca3.js"
+      "_Link-adf1e847.js"
     ],
     "css": [
       "assets/pages/__layout.svelte-b15d897f.css"
@@ -34,79 +35,89 @@
     ]
   },
   ".svelte-kit/runtime/components/error.svelte": {
-    "file": "error.svelte-6c10738e.js",
+    "file": "error.svelte-13cf18f0.js",
     "src": ".svelte-kit/runtime/components/error.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-bae2fa0a.js"
+      "_index-67f931fa.js"
     ]
   },
-  "src/routes/exercises/[slug].svelte": {
-    "file": "pages/exercises/_slug_.svelte-6b63f912.js",
-    "src": "src/routes/exercises/[slug].svelte",
+  "src/routes/exercises/[exerciseId].svelte": {
+    "file": "pages/exercises/_exerciseId_.svelte-28148729.js",
+    "src": "src/routes/exercises/[exerciseId].svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-bae2fa0a.js",
-      "_store-e7619eac.js",
-      "_index-27c791b4.js"
+      "_index-67f931fa.js",
+      "_store-2fbec7ac.js",
+      "_stores-2c052321.js",
+      "_index-78d3ef8c.js"
+    ],
+    "css": [
+      "assets/pages/index.svelte-4420d702.css"
     ]
   },
   "src/routes/exercises/index.svelte": {
-    "file": "pages/exercises/index.svelte-7bec05a9.js",
+    "file": "pages/exercises/index.svelte-dcdd8caf.js",
     "src": "src/routes/exercises/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-bae2fa0a.js",
-      "_store-e7619eac.js",
-      "_index-27c791b4.js"
+      "_index-67f931fa.js",
+      "_store-2fbec7ac.js",
+      "_index-78d3ef8c.js"
     ],
     "css": [
       "assets/pages/index.svelte-4420d702.css"
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-9fb11493.js",
+    "file": "pages/index.svelte-c6ba543a.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-bae2fa0a.js",
-      "_link-6b83aca3.js",
-      "_store-e7619eac.js",
+      "_index-67f931fa.js",
+      "_Link-adf1e847.js",
+      "_store-2fbec7ac.js",
       "_paths-396f020f.js",
-      "_index-27c791b4.js"
+      "_index-78d3ef8c.js"
     ],
     "css": [
       "assets/pages/index.svelte-4420d702.css"
     ]
   },
-  "_index-bae2fa0a.js": {
-    "file": "chunks/index-bae2fa0a.js"
+  "_index-67f931fa.js": {
+    "file": "chunks/index-67f931fa.js"
   },
-  "_index-27c791b4.js": {
-    "file": "chunks/index-27c791b4.js",
+  "_index-78d3ef8c.js": {
+    "file": "chunks/index-78d3ef8c.js",
     "imports": [
-      "_index-bae2fa0a.js"
+      "_index-67f931fa.js"
     ]
   },
   "_paths-396f020f.js": {
     "file": "chunks/paths-396f020f.js"
   },
-  "_link-6b83aca3.js": {
-    "file": "chunks/link-6b83aca3.js",
+  "_stores-2c052321.js": {
+    "file": "chunks/stores-2c052321.js",
     "imports": [
-      "_index-bae2fa0a.js",
+      "_index-67f931fa.js"
+    ]
+  },
+  "_Link-adf1e847.js": {
+    "file": "chunks/Link-adf1e847.js",
+    "imports": [
+      "_index-67f931fa.js",
       "_paths-396f020f.js"
     ]
   },
-  "_store-e7619eac.js": {
-    "file": "chunks/store-e7619eac.js",
+  "_store-2fbec7ac.js": {
+    "file": "chunks/store-2fbec7ac.js",
     "imports": [
-      "_index-27c791b4.js",
-      "_index-bae2fa0a.js"
+      "_index-78d3ef8c.js",
+      "_index-67f931fa.js"
     ]
   }
 }

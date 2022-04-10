@@ -13,6 +13,13 @@
 - [ ] Select a date from when you want to start showing the data
 - [x] Persist the data in localStorage
 
+### Ideas
+
+- Display exercises in a [SvelTable](https://sveltable.io/) 
+- Support file drop for uploading a file - [filedrop-svelte](https://github.com/chanced/filedrop-svelte)
+- Take a look at [persistent-svelte-store](https://github.com/omer-g/persistent-svelte-store/blob/master/persistentStore.ts)
+  when adding more persistent stuff 
+
 ## Bootstrapped with create-svelte
 
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).

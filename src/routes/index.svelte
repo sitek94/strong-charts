@@ -3,9 +3,12 @@
   import Link from '$lib/Link.svelte'
   import { exerciseSets } from '$lib/store'
   import { mapCsvRowToExerciseSet } from '$lib/utils'
+  import Alert from '$lib/Alert.svelte'
 
   type Status = 'success' | 'error' | 'idle'
   let status: Status = 'idle'
+  let message: string
+
   let files
 
   $: if (files) {
@@ -27,12 +30,27 @@
         const data = rows.map(mapCsvRowToExerciseSet)
         exerciseSets.set(data)
         status = 'success'
+        message = 'Your file was loaded successfully'
       } catch (e) {
         console.error(e)
         status = 'error'
+        message = 'Your file could not be loaded'
       }
     }
     reader.readAsText(file)
+  }
+
+  async function useExampleData() {
+    try {
+      const rows = await d3.dsv(';', './example-dataset.csv')
+      const data = rows.map(mapCsvRowToExerciseSet)
+      exerciseSets.set(data)
+      status = 'success'
+      message = 'Example data was loaded successfully'
+    } catch {
+      status = 'error'
+      message = 'Example data could not be loaded'
+    }
   }
 </script>
 
@@ -42,24 +60,15 @@
 
 <div class="content">
   <h1>Import data</h1>
-
-  {#if status === 'idle'}
-    <h2>Import your own data</h2>
-    <input type="file" accept="text/csv" bind:files />
+  {#if status === 'success' || status === 'error'}
+    <Alert {status} {message} />
   {/if}
 
-  {#if status === 'success'}
-    <h2>Data imported</h2>
-    <Link to="exercises">Go to exercises</Link>
-  {/if}
-
-  {#if status === 'error'}
-    <h2>Something went wrong</h2>
-    <p>Check the console</p>
-  {/if}
+  <h2>Import your own data</h2>
+  <input type="file" accept="text/csv" bind:files />
 
   <h2>Or...</h2>
-  <button>Use example dataset</button>
+  <button on:click={useExampleData}>Use example dataset</button>
 </div>
 
 <style>

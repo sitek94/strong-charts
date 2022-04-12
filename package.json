@@ -5,7 +5,7 @@
     "dev": "svelte-kit dev --open",
     "build": "svelte-kit build",
     "package": "svelte-kit package",
-    "preview": "svelte-kit preview",
+    "preview": "svelte-kit preview --port=8080",
     "prepare": "svelte-kit sync && husky install",
     "test": "playwright test",
     "check": "svelte-check --tsconfig ./tsconfig.json",

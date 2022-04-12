@@ -1,7 +1,7 @@
 <script lang="ts">
   import * as d3 from 'd3'
-  import Link from '$lib/Link.svelte'
   import { exerciseSets } from '$lib/store'
+  import { base } from '$app/paths'
   import { mapCsvRowToExerciseSet } from '$lib/utils'
   import Alert from '$lib/Alert.svelte'
 
@@ -42,7 +42,7 @@
 
   async function useExampleData() {
     try {
-      const rows = await d3.dsv(';', './example-dataset.csv')
+      const rows = await d3.dsv(';', `${base}/example-dataset.csv`)
       const data = rows.map(mapCsvRowToExerciseSet)
       exerciseSets.set(data)
       status = 'success'

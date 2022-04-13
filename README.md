@@ -10,6 +10,8 @@
 
 ### Todos
 
+- [ ] Weekly aggreagtion
+- [ ] Connect dots in Scatter Chart
 - [ ] Select a date from when you want to start showing the data
 - [x] Persist the data in localStorage
 

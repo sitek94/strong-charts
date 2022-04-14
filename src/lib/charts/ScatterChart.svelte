@@ -5,7 +5,6 @@
   import type { Margin } from './charts.types'
   import { format } from 'date-fns'
 
-  // @ts-ignore
   type T = $$Generic
 
   export let width = 800
@@ -16,31 +15,18 @@
   export let y: (d: T) => number
   export let title: (d: T) => string
 
-  const datesExtent = d3.extent(data, x) as [Date, Date]
-
-  const binGenerator = d3
-    .bin<T, Date>()
-    .value(x)
-    .domain(datesExtent)
-    .thresholds(d3.timeDays(datesExtent[0], datesExtent[1], 1))
-
-  const buckets = binGenerator(data).map(bin => ({
-    y: d3.sum(bin, y),
-    x: bin.x0,
-  }))
-
   $: innerHeight = getInnerHeight({ height, margin })
   $: innerWidth = getInnerWidth({ width, margin })
 
   $: xScale = d3
     .scaleTime()
-    .domain(d3.extent(buckets, d => d.x) as [Date, Date])
+    .domain(d3.extent(data, x) as [Date, Date])
     .range([0, innerWidth])
     .nice()
 
   $: yScale = d3
     .scaleLinear()
-    .domain([0, d3.max(buckets, d => d.y)] as [number, number])
+    .domain([0, d3.max(data, y)] as [number, number])
     .range([innerHeight, 0])
     .nice()
 
@@ -72,13 +58,13 @@
       {/each}
     </g>
 
-    {#each buckets as d}
-      {#if d.y > 0}
+    {#each data as d}
+      {#if y(d) > 0}
         <g>
-          <title>{d.y}</title>
+          <title>{title(d)}</title>
           <circle
-            cx={xScale(d.x)}
-            cy={yScale(d.y)}
+            cx={xScale(x(d))}
+            cy={yScale(y(d))}
             r={5}
             fill="red"
             stroke="black"

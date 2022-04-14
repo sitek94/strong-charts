@@ -1,7 +1,11 @@
 <script lang="ts">
-  import { getExercise, getSets } from '$lib/store'
+  import { getExercise, getSets, type ExerciseSet } from '$lib/store'
   import { page } from '$app/stores'
   import ScatterChart from '$lib/charts/ScatterChart.svelte'
+
+  import * as d3 from 'd3'
+
+  type T = $$Generic
 
   const exerciseId = $page.params.exerciseId
   let innerWidth = 700
@@ -9,6 +13,22 @@
 
   const exercise = getExercise($page.params.exerciseId)
   const sets = getSets(exerciseId)
+
+  const xValue = (d: ExerciseSet) => d.date
+  const yValue = (d: ExerciseSet) => d.volume
+
+  const datesExtent = d3.extent(sets, xValue) as [Date, Date]
+
+  const binGenerator = d3
+    .bin<ExerciseSet, Date>()
+    .value(xValue)
+    .domain(datesExtent)
+    .thresholds(d3.timeDays(datesExtent[0], datesExtent[1], 1))
+
+  const binnedData = binGenerator(sets).map(bin => ({
+    volume: d3.sum(bin, yValue),
+    date: bin.x0,
+  }))
 </script>
 
 <svelte:head>
@@ -25,10 +45,10 @@
 
     <ScatterChart
       width={innerWidth}
-      data={sets}
+      data={binnedData}
       x={d => d['date']}
       y={d => d['volume']}
-      title={d => `Volume: ${d.volume}`}
+      title={d => `Volume: ${d['volume']}`}
     />
   {:else}
     <h1>Loading...</h1>

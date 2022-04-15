@@ -30,6 +30,12 @@
     .range([innerHeight, 0])
     .nice()
 
+  $: line = d3
+    .line<T>()
+    .x(d => xScale(x(d)))
+    .y(d => yScale(y(d)))
+    .curve(d3.curveBumpX)
+
   $: xTicks = data.map(x)
   $: yTicks = yScale.ticks(10)
 </script>
@@ -58,6 +64,8 @@
       {/each}
     </g>
 
+    <path d={line(data.filter(d => y(d) !== 0))} />
+
     {#each data as d}
       {#if y(d) > 0}
         <g>
@@ -77,6 +85,11 @@
 </svg>
 
 <style>
+  path {
+    fill: none;
+    stroke: var(--accent-color);
+    stroke-width: 2px;
+  }
   .tick {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 0.725em;

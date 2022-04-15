@@ -30,7 +30,7 @@
     .range([innerHeight, 0])
     .nice()
 
-  $: xTicks = xScale.ticks(d3.timeWeek.every(1))
+  $: xTicks = data.map(x)
   $: yTicks = yScale.ticks(10)
 </script>
 

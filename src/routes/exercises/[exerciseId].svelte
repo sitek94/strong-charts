@@ -19,16 +19,32 @@
 
   const datesExtent = d3.extent(sets, xValue) as [Date, Date]
 
-  const binGenerator = d3
-    .bin<ExerciseSet, Date>()
-    .value(xValue)
-    .domain(datesExtent)
-    .thresholds(d3.timeDays(datesExtent[0], datesExtent[1], 1))
+  const binFactory = () => d3.bin<ExerciseSet, Date>().value(xValue).domain(datesExtent)
 
-  const binnedData = binGenerator(sets).map(bin => ({
+  const dailyBin = binFactory().thresholds(d3.timeDays(datesExtent[0], datesExtent[1], 1))
+  const weeklyBin = binFactory().thresholds(d3.timeWeeks(datesExtent[0], datesExtent[1], 1))
+  const monthlyBin = binFactory().thresholds(d3.timeMonths(datesExtent[0], datesExtent[1], 1))
+
+  const dailyData = dailyBin(sets).map(bin => ({
     volume: d3.sum(bin, yValue),
     date: bin.x0,
   }))
+  const weeklyData = weeklyBin(sets).map(bin => ({
+    volume: d3.sum(bin, yValue),
+    date: bin.x0,
+  }))
+  const monthlyData = monthlyBin(sets).map(bin => ({
+    volume: d3.sum(bin, yValue),
+    date: bin.x0,
+  }))
+
+  let aggregation = 'weekly'
+
+  $: data = {
+    daily: dailyData,
+    weekly: weeklyData,
+    monthly: monthlyData,
+  }[aggregation]
 </script>
 
 <svelte:head>
@@ -43,9 +59,16 @@
       {exercise.name}
     </h1>
 
+    {#each ['daily', 'weekly', 'monthly'] as value}
+      <label>
+        <input type="radio" bind:group={aggregation} {value} />
+        {value}
+      </label>
+    {/each}
+
     <ScatterChart
       width={innerWidth}
-      data={binnedData}
+      {data}
       x={d => d['date']}
       y={d => d['volume']}
       title={d => `Volume: ${d['volume']}`}
@@ -56,6 +79,14 @@
 </div>
 
 <style>
+  label {
+    text-transform: capitalize;
+    display: block;
+  }
+  input {
+    accent-color: var(--accent-color);
+  }
+
   .content {
     width: 100%;
     margin: var(--column-margin-top) auto 0 auto;
